@@ -11,11 +11,11 @@ TEUTHOLOGY_PATH = settings.teuthology_path
 log = logging.getLogger(__name__)
 
 
-async def run(args, send_logs: bool, access_token: dict, request: Request):
+async def run(args, send_logs: bool, token: dict, request: Request):
     """
     Kill running teuthology jobs.
     """
-    if not access_token:
+    if not token:
         log.error("access_token empty, user probably is not logged in.")
         raise HTTPException(
             status_code=401,
@@ -36,7 +36,7 @@ async def run(args, send_logs: bool, access_token: dict, request: Request):
     if (run_owner.lower() != username.lower()) or (
         run_owner.lower() != f"scheduled_{username.lower()}@teuthology"
     ):
-        isUserAdmin = await isAdmin(username, access_token)
+        isUserAdmin = await isAdmin(username, token["access_token"])
         if not isUserAdmin:
             log.error(
                 "%s doesn't have permission to kill a job scheduled by: %s",

@@ -106,7 +106,7 @@ async def isAdmin(username, token):
     )
     async with httpx.AsyncClient() as client:
         headers = {
-            "Authorization": "token " + token["access_token"],
+            "Authorization": "token " + token,
             "Accept": "application/json",
         }
         response_org = await client.get(url=TEAM_MEMBER_URL, headers=headers)
